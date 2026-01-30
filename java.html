@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Concepts Demo</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        ul {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Employee Management (JS Concepts)</h2>
+
+    <input type="text" id="name" placeholder="Employee Name">
+    <input type="number" id="salary" placeholder="Salary">
+
+    <button id="addBtn">Add Employee</button>
+
+    <h3>Employee List</h3>
+    <ul id="empList"></ul>
+</div>
+
+<script>
+    /* ================= GLOBAL VARIABLES ================= */
+    let employees = [];   // global array
+    let companyName = "Tech Corp"; // global variable
+
+    /* ================= CLASS ================= */
+    class Employee {
+        constructor(name, salary) {
+            this.name = name;
+            this.salary = salary;
+        }
+    }
+
+    /* ================= OBJECT ================= */
+    const company = {
+        name: companyName,
+        totalEmployees: function () {
+            return employees.length;
+        }
+    };
+
+    /* ================= EVENT HANDLING ================= */
+    document.getElementById("addBtn").addEventListener("click", addEmployee);
+
+    function addEmployee() {
+
+        /* ============ LOCAL VARIABLES ============ */
+        let name = document.getElementById("name").value;
+        let salary = document.getElementById("salary").value;
+
+        if (name === "" || salary === "") {
+            alert("Please enter all details");
+            return;
+        }
+
+        /* ============ USING CLASS & ARRAY ============ */
+        let emp = new Employee(name, salary);
+        employees.push(emp);   // array method: push
+
+        displayEmployees();
+        clearInputs();
+    }
+
+    function displayEmployees() {
+        let list = document.getElementById("empList");
+        list.innerHTML = "";
+
+        /* ============ ARRAY METHOD: forEach ============ */
+        employees.forEach(function (emp, index) {
+            let li = document.createElement("li");
+            li.textContent = `${index + 1}. ${emp.name} - ₹${emp.salary}`;
+            list.appendChild(li);
+        });
+
+        console.log("Total Employees:", company.totalEmployees());
+    }
+
+    function clearInputs() {
+        document.getElementById("name").value = "";
+        document.getElementById("salary").value = "";
+    }
+
+    /* ============ ARRAY METHODS: map & filter ============ */
+
+    // map example
+    let salaries = employees.map(emp => emp.salary);
+
+    // filter example
+    let highSalaryEmployees = employees.filter(emp => emp.salary > 50000);
+
+</script>
+
+</body>
+</html>
